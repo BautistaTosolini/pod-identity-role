@@ -1,0 +1,93 @@
+[
+  {
+    "name": "prometheus-test",
+    "aws_managed_policy_arns": [
+      "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+    ],
+    "description": "Test role description",
+    "namespace": "pod-identity-test",
+    "service_account": "prometheus-test"
+  },
+
+  {
+    "name": "runners-test",
+    "aws_managed_policy_arns": [
+      "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
+    ],
+    "namespace": "pod-identity-test",
+    "service_account": "runners-test"
+  },
+
+  {
+    "name": "loki-test",
+    "custom_policies": [
+      {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Sid": "AllowWriteToCrossAccountBucket",
+            "Effect": "Allow",
+            "Action": [
+              "s3:GetObject",
+              "s3:PutObject",
+              "s3:DeleteObject",
+              "s3:PutObjectAcl",
+              "s3:PutObjectTagging"
+            ],
+            "Resource": "arn:aws:s3:::n1co-cross-prometheus-k8s-metrics/*"
+          },
+          {
+              "Sid": "AllowToListBucket",
+              "Effect": "Allow",
+              "Action": [
+                  "s3:ListBucket",
+                  "s3:GetBucketLocation"
+              ],
+              "Resource": "arn:aws:s3:::n1co-cross-prometheus-k8s-metrics"
+          }
+        ]
+      }
+    ],
+    "namespace": "pod-identity-test",
+    "service_account": "loki-test"
+  },
+
+  {
+    "name": "test-role",
+    "aws_managed_policy_arns": [
+      "arn:aws:iam::aws:policy/AdministratorAccess",
+      "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+    ],
+    "custom_policies": [
+      {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Sid": "AllowWriteToCrossAccountBucket",
+            "Effect": "Allow",
+            "Action": [
+              "s3:GetObject",
+              "s3:PutObject",
+              "s3:DeleteObject",
+              "s3:PutObjectAcl",
+              "s3:PutObjectTagging"
+            ],
+            "Resource": "arn:aws:s3:::n1co-cross-prometheus-k8s-metrics/*"
+          },
+          {
+              "Sid": "AllowToListBucket",
+              "Effect": "Allow",
+              "Action": [
+                  "s3:ListBucket",
+                  "s3:GetBucketLocation"
+              ],
+              "Resource": "arn:aws:s3:::n1co-cross-prometheus-k8s-metrics"
+          }
+        ]
+      }
+    ],
+    "namespace": "pod-identity-test",
+    "service_account": "test-role",
+    "description": "test"
+  }
+]
